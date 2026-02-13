@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Advanced Web Design Showcase</title>
+    <meta name="description" content="Showcasing cutting-edge web animations, transitions, scaling, and responsive design techniques">
+    <meta name="keywords" content="web design, animations, transitions, responsive design, CSS effects">
+    <meta name="author" content="Web Design Studio">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6366f1",
+                        secondary: "#8b5cf6",
+                        accent: "#10b981",
+                        dark: "#0f172a",
+                        light: "#f8fafc"
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'slide-in': 'slideIn 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'scale-up': 'scaleUp 0.4s ease-out forwards',
+                        'gradient-shift': 'gradientShift 3s ease infinite',
+                        'wiggle': 'wiggle 0.5s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' }
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        scaleUp: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        gradientShift: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        },
+                        glow: {
+                            '0%': { 
+                                boxShadow: '0 0 5px #6366f1, 0 0 10px #6366f1, 0 0 15px #6366f1, 0 0 20px #6366f1'
+                            },
+                            '100%': { 
+                                boxShadow: '0 0 10px #6366f1, 0 0 20px #6366f1, 0 0 30px #6366f1, 0 0 40px #6366f1'
+                            }
+                        }
+                    },
+                    transitionProperty: {
+                        'transform': 'transform',
+                        'all': 'all'
+                    },
+                    transitionDuration: {
+                        '2000': '2000ms',
+                        '3000': '3000ms'
+                    },
+                    scale: {
+                        '102': '1.02',
+                        '105': '1.05',
+                        '110': '1.10'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #10b981, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .stagger-animation > * {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #6366f1;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #6366f1 }
+        }
+        
+        .scroll-progress {
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #10b981);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+        
+        .morphing-shape {
+            animation: morph 8s ease-in-out infinite;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+    
+    <!-- Hero Section -->
+    <header class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full animate-spin-slow"></div>
+            <div class="absolute top-3/4 left-1/3 w-48 h-48 bg-accent/20 rounded-full animate-float"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 py-16 relative z-10 text-center">
+            <div class="morphing-shape w-32 h-32 mx-auto bg-white/20 mb-8 animate-float"></div>
+            
+            <h1 class="text-4xl md:text-7xl font-bold mb-6 text-white animate-scale-up">
+                <span class="typewriter">Advanced Web Design</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-fade-in">
+                Experience cutting-edge animations, smooth transitions, and responsive scaling
+            </p>
+            
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button onclick="exploreFeatures()" 
+                        class="px-8 py-4 bg-white text-primary font-semibold rounded-full hover:scale-105 transition-transform duration-300 animate-bounce-slow hover:shadow-2xl">
+                    <i class="fas fa-rocket mr-2"></i>Explore Features
+                </button>
+                <button onclick="viewDemo()" 
+                        class="px-8 py-4 glass-effect text-white font-semibold rounded-full hover:scale-105 transition-all duration-300 hover:bg-white/20">
+                    <i class="fas fa-play mr-2"></i>View Demo
+                </button>
+            </div>
+            
+            <div class="mt-20 animate-pulse">
+                <i class="fas fa-chevron-down text-white text-3xl"></i>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Features Section -->
+    <main>
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-16 text-gradient">Advanced Design Features</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation" id="featuresGrid">
+                    <!-- Features will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Interactive Demo Section -->
+        <section class="py-20 parallax-section" style="background-image: url('https://picsum.photos/1920/1080?random=1')">
+            <div class="container mx-auto px-4">
+                <div class="glass-effect rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Interactive Animation Playground</h2>
+                    <p class="text-white/80 mb-8">Adjust parameters and see animations in real-time</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-white/10 p-6 rounded-2xl">
+                                <h3 class="text-xl font-semibold text-white mb-4">Animation Controls</h3>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-white/70 mb-2">Animation Speed</label>
+                                        <input type="range" min="1" max="10" value="5" 
+                                               class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                                               oninput="updateAnimationSpeed(this.value)">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-white/70 mb-2">Scale Factor</label>
+                                        <input type="range" min="100" max="150" value="110" 
+                                               class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                                               oninput="updateScaleFactor(this.value)">
+                                    </div>
+                                    
+                                    <button onclick="toggleAnimations()" 
+                                            class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/80 transition-colors">
+                                        <i class="fas fa-play mr-2"></i>Toggle All Animations
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-center">
+                            <div id="demoBox" 
+                                 class="w-48 h-48 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center cursor-pointer transition-all duration-500"
+                                 onclick="triggerDemoAnimation()">
+                                <span class="text-white font-bold text-lg">Click Me!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Section -->
+        <section class="py-20 bg-dark text-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Visual Showcase</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="imageGallery">
+                    <!-- Images will be populated by JavaScript -->
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button onclick="loadMoreImages()" 
+                            class="px-8 py-4 bg-primary text-white font-semibold rounded-full hover:scale-105 transition-transform duration-300 hover:shadow-xl">
+                        <i class="fas fa-plus mr-2"></i>Load More Effects
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats Section -->
+        <section class="py-20 bg-gradient-to-r from-primary to-secondary">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="animate-scale-up">
+                        <div class="text-4xl md:text-6xl font-bold text-white mb-2">99.9%</div>
+                        <div class="text-white/80">Performance Score</div>
+                    </div>
+                    <div class="animate-scale-up" style="animation-delay: 0.2s">
+                        <div class="text-4xl md:text-6xl font-bold text-white mb-2">60+fps</div>
+                        <div class="text-white/80">Animation Frame Rate</div>
+                    </div>
+                    <div class="animate-scale-up" style="animation-delay: 0.4s">
+                        <div class="text-4xl md:text-6xl font-bold text-white mb-2">&lt;100ms</div>
+                        <div class="text-white/80">Transition Speed</div>
+                    </div>
+                    <div class="animate-scale-up" style="animation-delay: 0.6s">
+                        <div class="text-4xl md:text-6xl font-bold text-white mb-2">5 Breakpoints</div>
+                        <div class="text-white/80">Responsive Design</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact/CTA Section -->
+        <section class="py-20 bg-light">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6 text-dark">Ready to Elevate Your Web Design?</h2>
+                    <p class="text-xl text-dark/70 mb-8">Experience the future of web interactions with our advanced animation framework</p>
+                    
+                    <form class="max-w-2xl mx-auto space-y-4" onsubmit="return subscribeNewsletter(event)">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <input type="email" 
+                                   placeholder="Enter your email for updates" 
+                                   class="flex-1 px-6 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                   required>
+                            <button type="submit" 
+                                    class="px-8 py-4 bg-primary text-white font-semibold rounded-full hover:scale-105 transition-transform duration-300 hover:shadow-xl">
+                                <i class="fas fa-paper-plane mr-2"></i>Get Updates
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-gradient">Web Design Studio</h3>
+                    <p class="text-white/70">Creating exceptional web experiences with cutting-edge animations and responsive design.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Technologies</h4>
+                    <ul class="space-y-2 text-white/70">
+                        <li><i class="fas fa-code mr-2"></i>HTML5 & CSS3</li>
+                        <li><i class="fab fa-js mr-2"></i>JavaScript ES6+</li>
+                        <li><i class="fas fa-paint-brush mr-2"></i>Tailwind CSS</li>
+                        <li><i class="fas fa-bolt mr-2"></i>Web Animations API</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Features</h4>
+                    <ul class="space-y-2 text-white/70">
+                        <li><i class="fas fa-play mr-2"></i>Advanced Animations</li>
+                        <li><i class="fas fa-arrows-alt-h mr-2"></i>Smooth Transitions</li>
+                        <li><i class="fas fa-mobile-alt mr-2"></i>Responsive Scaling</li>
+                        <li><i class="fas fa-tachometer-alt mr-2"></i>High Performance</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" onclick="socialLink('twitter')" 
+                           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors hover:scale-110">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="socialLink('github')" 
+                           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-dark transition-colors hover:scale-110">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="socialLink('linkedin')" 
+                           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="socialLink('dribbble')" 
+                           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-500 transition-colors hover:scale-110">
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/50">
+                <p>&copy; 2024 Web Design Studio. All rights reserved. | <a href="javascript:void(0)" onclick="showPrivacy()" class="hover:text-white transition-colors">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Cookie Consent -->
+    <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-dark text-white p-4 transform translate-y-full transition-transform duration-500">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex-1">
+                <p>This website uses cookies to enhance your experience. By continuing, you agree to our use of cookies.</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="acceptCookies()" 
+                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
+                    Accept
+                </button>
+                <button onclick="declineCookies()" 
+                        class="px-6 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors">
+                    Decline
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Define data at the beginning
+        const features = [
+            {
+                "id": 1,
+                "title": "Fluid Animations",
+                "description": "Smooth 60fps animations using CSS transitions and Web Animations API",
+                "icon": "fas fa-wave-square",
+                "color": "from-blue-500 to-purple-500"
+            },
+            {
+                "id": 2,
+                "title": "Responsive Scaling",
+                "description": "Perfect adaptation across all device sizes with fluid typography",
+                "icon": "fas fa-expand-alt",
+                "color": "from-green-500 to-teal-500"
+            },
+            {
+                "id": 3,
+                "title": "Advanced Transitions",
+                "description": "Custom easing functions and choreographed multi-element transitions",
+                "icon": "fas fa-exchange-alt",
+                "color": "from-orange-500 to-red-500"
+            },
+            {
+                "id": 4,
+                "title": "Parallax Effects",
+                "description": "Multi-layered scrolling effects with optimized performance",
+                "icon": "fas fa-layer-group",
+                "color": "from-purple-500 to-pink-500"
+            },
+            {
+                "id": 5,
+                "title": "Morphing Shapes",
+                "description": "Dynamic shape transformations using CSS animations",
+                "icon": "fas fa-shapes",
+                "color": "from-yellow-500 to-orange-500"
+            },
+            {
+                "id": 6,
+                "title": "Glass Morphism",
+                "description": "Modern frosted glass effects with backdrop filters",
+                "icon": "fas fa-glass-whiskey",
+                "color": "from-cyan-500 to-blue-500"
+            }
+        ];
+        
+        const galleryImages = [
+            { "id": 1, "src": "https://picsum.photos/400/300?random=2", "title": "Animation Example 1" },
+            { "id": 2, "src": "https://picsum.photos/400/300?random=3", "title": "Transition Demo" },
+            { "id": 3, "src": "https://picsum.photos/400/300?random=4", "title": "Responsive Layout" },
+            { "id": 4, "src": "https://picsum.photos/400/300?random=5", "title": "Scaling Effects" },
+            { "id": 5, "src": "https://picsum.photos/400/300?random=6", "title": "Color Transitions" },
+            { "id": 6, "src": "https://picsum.photos/400/300?random=7", "title": "Interactive Elements" }
+        ];
+        
+        // DOM Elements
+        const scrollProgress = document.getElementById('scrollProgress');
+        const featuresGrid = document.getElementById('featuresGrid');
+        const imageGallery = document.getElementById('imageGallery');
+        const demoBox = document.getElementById('demoBox');
+        const cookieConsent = document.getElementById('cookieConsent');
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show cookie consent after delay
+            setTimeout(() => {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    cookieConsent.style.transform = 'translateY(0)';
+                }
+            }, 2000);
+            
+            // Initialize features grid
+            renderFeatures();
+            
+            // Initialize image gallery
+            renderGallery();
+            
+            // Initialize scroll progress
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Initialize stagger animations
+            setTimeout(() => {
+                initStaggerAnimations();
+            }, 500);
+        });
+        
+        // Render features grid
+        function renderFeatures() {
+            featuresGrid.innerHTML = '';
+            features.forEach((feature, index) => {
+                const featureEl = document.createElement('div');
+                featureEl.className = `card-hover bg-gradient-to-br ${feature.color} p-8 rounded-3xl text-white`;
+                featureEl.style.animationDelay = `${index * 0.1}s`;
+                featureEl.innerHTML = `
+                    <div class="text-4xl mb-6 animate-float" style="animation-delay: ${index * 0.2}s">
+                        <i class="${feature.icon}"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">${feature.title}</h3>
+                    <p class="text-white/80">${feature.description}</p>
+                `;
+                featuresGrid.appendChild(featureEl);
+            });
+        }
+        
+        // Render image gallery
+        function renderGallery() {
+            imageGallery.innerHTML = '';
+            galleryImages.forEach((image, index) => {
+                const imageEl = document.createElement('div');
+                imageEl.className = 'relative overflow-hidden rounded-2xl group cursor-pointer';
+                imageEl.innerHTML = `
+                    <img src="${image.src}" 
+                         alt="${image.title}" 
+                         class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-700"
+                         loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <h3 class="text-white text-xl font-semibold">${image.title}</h3>
+                    </div>
+                `;
+                imageGallery.appendChild(imageEl);
+            });
+        }
+        
+        // Initialize stagger animations
+        function initStaggerAnimations() {
+            const staggerItems = document.querySelectorAll('.stagger-animation > *');
+            staggerItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                }, index * 100);
+            });
+        }
+        
+        // Update scroll progress
+        function updateScrollProgress() {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        }
+        
+        // Interactive functions
+        function exploreFeatures() {
+            document.querySelector('main').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Add visual feedback
+            const button = event.target.closest('button');
+            button.classList.add('animate-glow');
+            setTimeout(() => button.classList.remove('animate-glow'), 1000);
+        }
+        
+        function viewDemo() {
+            document.querySelector('.parallax-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+        
+        function triggerDemoAnimation() {
+            demoBox.classList.add('animate-wiggle');
+            demoBox.style.transform = `scale(${Math.random() * 0.5 + 1}) rotate(${Math.random() * 20 - 10}deg)`;
+            
+            setTimeout(() => {
+                demoBox.classList.remove('animate-wiggle');
+                demoBox.style.transform = '';
+            }, 500);
+        }
+        
+        function updateAnimationSpeed(speed) {
+            const speedValue = 11 - speed; // Invert for more intuitive control
+            document.documentElement.style.setProperty('--animation-speed', `${speedValue}s`);
+            
+            // Update demo box animation
+            demoBox.style.animationDuration = `${speedValue}s`;
+        }
+        
+        function updateScaleFactor(factor) {
+            demoBox.style.transform = `scale(${factor / 100})`;
+        }
+        
+        function toggleAnimations() {
+            const allAnimated = document.querySelectorAll('[class*="animate-"]');
+            allAnimated.forEach(el => {
+                if (el.style.animationPlayState === 'paused') {
+                    el.style.animationPlayState = 'running';
+                } else {
+                    el.style.animationPlayState = 'paused';
+                }
+            });
+        }
+        
+        function loadMoreImages() {
+            const newImages = [
+                { "id": 7, "src": "https://picsum.photos/400/300?random=8", "title": "Advanced Effects" },
+                { "id": 8, "src": "https://picsum.photos/400/300?random=9", "title": "Motion Design" },
+                { "id": 9, "src": "https://picsum.photos/400/300?random=10", "title": "UI Interactions" }
+            ];
+            
+            newImages.forEach(image => {
+                galleryImages.push(image);
+                const imageEl = document.createElement('div');
+                imageEl.className = 'relative overflow-hidden rounded-2xl group cursor-pointer animate-scale-up';
+                imageEl.innerHTML = `
+                    <img src="${image.src}" 
+                         alt="${image.title}" 
+                         class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-700"
+                         loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <h3 class="text-white text-xl font-semibold">${image.title}</h3>
+                    </div>
+                `;
+                imageGallery.appendChild(imageEl);
+            });
+        }
+        
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            
+            // Show success animation
+            const button = event.target.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check mr-2"></i>Subscribed!';
+            button.classList.add('bg-accent');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('bg-accent');
+            }, 2000);
+            
+            // Reset form
+            event.target.reset();
+            
+            return false;
+        }
+        
+        function socialLink(platform) {
+            const urls = {
+                'twitter': 'https://twitter.com',
+                'github': 'https://github.com',
+                'linkedin': 'https://linkedin.com',
+                'dribbble': 'https://dribbble.com'
+            };
+            
+            // Animation feedback
+            const link = event.target.closest('a');
+            link.classList.add('animate-bounce-slow');
+            setTimeout(() => link.classList.remove('animate-bounce-slow'), 1000);
+            
+            // In a real type implementation, this would navigate to the URL
+            console.log(`Navigating to ${platform}: ${urls[platform]}`);
+        }
+        
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookieConsent.style.transform = 'translateY(100%)';
+        }
+        
+        function declineCookies() {
+            cookieConsent.style.transform = 'translateY(100%)';
+        }
+        
+        function showPrivacy() {
+            alert("Privacy Policy: We value your privacy and do not share personal data. All animations are client-side only.");
+        }
+        
+        // Performance optimization
+        window.addEventListener('load', () => {
+            // Some loaded images
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
