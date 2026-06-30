@@ -1,2 +1,2 @@
 # Sample-of-Advance-Web-Design
-Web Design Template Using HTML, CSS and Javascript
+Web Design Template By Using HTML5, CSS3 and Javascript.
